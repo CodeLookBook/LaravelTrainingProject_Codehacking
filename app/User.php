@@ -23,4 +23,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //Получение списка ролей выбранного пользователя
+    public function roles(){
+        return $this->belongsTo('App\Role', 'role_id', 'id');
+    }
+
+
 }

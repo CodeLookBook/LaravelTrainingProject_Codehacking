@@ -194,5 +194,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="CodeHacking node_modules" level="project" />
   </component>
 </module>
