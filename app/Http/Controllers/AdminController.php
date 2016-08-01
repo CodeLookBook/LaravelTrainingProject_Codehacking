@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Photo;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -99,13 +100,29 @@ class AdminController extends Controller
     public  function storeUser(Requests\UsersRequest $request){
 
         $user = new User();
+        $file = $request->file('photo');
 
         $user->name         = $request->name;
         $user->email        = $request->email;
         $user->role_id      = $request->role_id;
-        $user->password     = Hash::make($request->password);
+        $user->password     = bcrypt($request->password);
         $user->created_at   = $request->created_at;
         $user->updated_at   = $request->updated_at;
+
+        if($file){
+            $name = time().$file->getClientOriginalName();
+            $date = new \DateTime();
+
+            $photo = new Photo();
+            $photo->path = $name;
+            $photo->created_at = $date->getTimestamp();
+            $photo->updated_at = $date->getTimestamp();
+            $photo->save();
+            $user->photo_id = $photo->id;
+
+            $file->move('image', $name);
+
+        }
 
         $user->save();
 
