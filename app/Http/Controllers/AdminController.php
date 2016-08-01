@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -87,5 +89,26 @@ class AdminController extends Controller
     public function users(){
         $users = User::all();
         return view('admin.users.index',compact("users"));
+    }
+
+    public function createUser(){
+        $roles = Role::lists('name','id');
+        return view('admin.users.create', compact('roles'));
+    }
+
+    public  function storeUser(Requests\UsersRequest $request){
+
+        $user = new User();
+
+        $user->name         = $request->name;
+        $user->email        = $request->email;
+        $user->role_id      = $request->role_id;
+        $user->password     = Hash::make($request->password);
+        $user->created_at   = $request->created_at;
+        $user->updated_at   = $request->updated_at;
+
+        $user->save();
+
+        return redirect('admin/users');
     }
 }
