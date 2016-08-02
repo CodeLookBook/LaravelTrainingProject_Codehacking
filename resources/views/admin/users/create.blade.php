@@ -59,8 +59,8 @@
                 Form::select(
                             'is_active',
                             array(
-                                    '0' => 'Active',
-                                    '1' => 'Not Cative',
+                                    '0' => 'Not Aative',
+                                    '1' => 'Aative',
                             ),
                             null,
                             ['placeholder' => 'Pick a status...',

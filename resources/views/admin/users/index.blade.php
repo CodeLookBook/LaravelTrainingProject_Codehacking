@@ -3,6 +3,8 @@
 
 
 @section('content')
+
+
     <h1>USERS:</h1>
     <div class="row">
         <div class="col-xs-12">
@@ -10,6 +12,7 @@
             	<thead>
             		<tr>
                         <th>Id</th>
+                        <th>Photo</th>
             			<th>User name</th>
                         <th>E-mail</th>
                         <th>Role</th>
@@ -24,7 +27,10 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>{{$user->id}}</td>
-                                <td>{{$user->name}}</td>
+                                <td>
+                                    <img height="50px" width="50px" src="{{$user->photo ? $user->photo->path : 'http://placeholder.it/50x50'}}" alt="..." class="img-circle">
+                                </td>
+                                <td><a href="{{action('AdminController@editUser',$user->id)}}">{{$user->name}}</a></td>
                                 <td>{{$user->email}}</td>
                                 <td>
                                     @foreach($user->roles()->get() as $role)
@@ -42,5 +48,6 @@
             </table>
         </div>
     </div>
+
 
 @endsection

@@ -25,6 +25,11 @@ Route::get('/admin/users/create', 'AdminController@createUser');
 
 Route::post('/admin/users/storeuser', 'AdminController@storeUser');
 
+Route::get('/admin/users/edit/{id}', 'AdminController@editUser');
+
+
+Route::post('/admin/users/update/{id}', 'AdminController@updateUser');
+
 Route::get('/admin', function(){
     return view('admin.index');
 });
