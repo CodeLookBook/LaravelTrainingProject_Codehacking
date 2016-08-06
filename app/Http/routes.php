@@ -19,17 +19,24 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/admin/users', 'AdminController@users');
-
-Route::get('/admin/users/create', 'AdminController@createUser');
-
-Route::post('/admin/users/storeuser', 'AdminController@storeUser');
-
-Route::get('/admin/users/edit/{id}', 'AdminController@editUser');
 
 
-Route::post('/admin/users/update/{id}', 'AdminController@updateUser');
+Route::group(['middleware' => 'admin'], function(){
 
-Route::get('/admin', function(){
-    return view('admin.index');
+    Route::get      ('/admin/users'             , 'AdminController@users'                   );
+    Route::get      ('/admin/users/create'      , 'AdminController@createUser'              );
+    Route::post     ('/admin/users/storeuser'   , 'AdminController@storeUser'               );
+    Route::get      ('/admin/users/edit/{id}'   , 'AdminController@editUser'                );
+    Route::post     ('/admin/users/update/{id}' , 'AdminController@updateUser'              );
+    Route::delete   ('/admin/users/destroy/{id}', 'AdminController@destroyUser'             );
+    Route::get      ('admin/posts'              , 'AdminController@posts'                   );
+    Route::get      ('admin/posts/create'       , 'AdminController@createPost'              );
+    Route::post     ('admin/posts/store'        , 'AdminController@storePost'               );
+    Route::get      ('admin/posts/edit/{id}'    , 'AdminController@editPost'                );
+    Route::post     ('admin/posts/update/{id}'  , 'AdminController@updatePost'              );
+    Route::delete   ('admin/posts/delete/{id}'  , 'AdminController@deletePost'              );
 });
+
+Route::get          ('/admin'                   , function(){ return view('admin.index'); } );
+
+

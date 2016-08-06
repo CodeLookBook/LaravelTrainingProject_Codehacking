@@ -5,6 +5,14 @@
 @section('content')
 
 
+
+    @if(Session::has('data_state'))
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    	User {{Session::get('user_name')}} <strong>{{Session::get('data_state')}}!</strong>
+    </div>
+    @endif
+
     <h1>USERS:</h1>
     <div class="row">
         <div class="col-xs-12">

@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\UsersRequest;
 use App\Photo;
+use App\Post;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
@@ -146,6 +150,10 @@ class AdminController extends Controller
         //получение указателя на файл загруженный пользователем
         $file = $request->file('path');
 
+        //сохранения данных об операции в сессии
+        Session::flash('data_state', 'has been updated');
+        Session::flash('user_name', $user->name);
+
         //сохраненние отредактированных данных пользователя
         $user->name = $request->name;
         $user->email= $request->email;
@@ -161,8 +169,8 @@ class AdminController extends Controller
             //удаление сущестующей аватарки пользователя
             if($user->photo_id){
                 if($user->photo){
-                    if(file_exists($user->photo->path)){
-                        unlink($user->photo->path);
+                    if(file_exists(public_path().$user->photo->path)){
+                        unlink(public_path().$user->photo->path);
                     }
                 }
             }
@@ -185,5 +193,77 @@ class AdminController extends Controller
         $user->save();
 
         return redirect('admin/users');
+    }
+
+    public function destroyUser($id){
+        //поиск пользователя в БД
+        $user = User::findOrFail($id);
+
+        //сохранение данных в сессию для их вывода в инф.сообщении
+        Session::flash('data_state','Has been deleted');
+        Session::flash('user_name',$user->name);
+
+        //удаление существующей аватарки пользователя
+        if($user->photo_id){
+            if($user->photo){
+                if(file_exists(public_path().$user->photo->path)){
+                    unlink(public_path().$user->photo->path);
+                }
+            }
+        }
+
+        $user->delete();
+        return redirect('admin/users');
+    }
+
+    public function posts(){
+        $posts = Post::all();
+        return view('admin/posts/index', compact('posts'));
+    }
+
+    public  function createPost(){
+//        $categories = Category::lists('name', 'id');
+//
+        return view('admin/posts/create'/*, compact('categories')*/);
+    }
+
+    public function storePost(PostCreateRequest $request){
+        $user   = Auth::user();
+        $file  = $request->hasFile('photo_id') ? $request->file('photo_id') : null;
+
+        if($user){
+            if($request->hasFile('photo_id')){
+                $post               = new Post();
+                $post->user_id      = $user->id;
+                $post->category_id  = $request->input('category_id');
+                $post->title        = $request->input('title');
+                $post->body         = $request->input('body');
+
+                if($file){
+                    $photo          = new Photo();
+                    $photo->path    = time().$file->getClientOriginalName();
+
+                    $file->move('image', $photo->path);
+
+                    $photo->save();
+
+                    $post->photo_id = $photo->id;
+                }
+
+                $post->save();
+            }
+
+            return redirect('admin/posts');
+        }
+
+        return $request->all();
+    }
+
+    public function editPost($id){
+
+    }
+
+    public function updatePost(Request $request, $id){
+
     }
 }
