@@ -29,12 +29,19 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get      ('/admin/users/edit/{id}'   , 'AdminController@editUser'                );
     Route::post     ('/admin/users/update/{id}' , 'AdminController@updateUser'              );
     Route::delete   ('/admin/users/destroy/{id}', 'AdminController@destroyUser'             );
-    Route::get      ('admin/posts'              , 'AdminController@posts'                   );
-    Route::get      ('admin/posts/create'       , 'AdminController@createPost'              );
-    Route::post     ('admin/posts/store'        , 'AdminController@storePost'               );
-    Route::get      ('admin/posts/edit/{id}'    , 'AdminController@editPost'                );
-    Route::post     ('admin/posts/update/{id}'  , 'AdminController@updatePost'              );
-    Route::delete   ('admin/posts/delete/{id}'  , 'AdminController@deletePost'              );
+
+
+    Route::get      ('/admin/posts'              , 'AdminController@posts'                  );
+    Route::get      ('/admin/posts/create'       , 'AdminController@createPost'             );
+    Route::post     ('/admin/posts/store'        , 'AdminController@storePost'              );
+    Route::get      ('/admin/posts/edit/{id}'    , 'AdminController@editPost'               );
+    Route::post     ('/admin/posts/update/{id}'  , 'AdminController@updatePost'             );
+    Route::delete   ('/admin/posts/delete/{id}'  , 'AdminController@deletePost'             );
+
+
+    Route::get      ('/admin/categories'         , 'AdminController@categories'             );
+    Route::get      ('/admin/categories/create'  , 'AdminController@categoryCreate'         );
+    Route::post     ('/admin/categories/store'   , 'AdminController@categoryStore'          );
 });
 
 Route::get          ('/admin'                   , function(){ return view('admin.index'); } );

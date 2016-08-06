@@ -1,0 +1,35 @@
+[33mcommit be444894ccfba451f977a6e7d09680d27e9c6ccf[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Sat Aug 6 17:48:08 2016 +0300
+
+    Added: 1.List of posts; 2.Create post Page
+
+[33mcommit 244e1ef7fe86305ab032208df677d46a349fc44b[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Wed Aug 3 01:30:35 2016 +0300
+
+    Users section working 100%, exept security
+
+[33mcommit ee67f2932090b43a44ce6577789ce440e2fe133e[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Mon Aug 1 21:21:26 2016 +0300
+
+    Added: Now we can create users and save there photos in DB
+
+[33mcommit c3ec43c6017590cc4be3a9cbf0e5209536c7b38b[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Mon Aug 1 17:18:53 2016 +0300
+
+    Added: Create user and View users options, from admin panel. Not implemented: Users add to DB without photo.
+
+[33mcommit 03d0b3e83d24416bf2cfaea9f65b74b2846a1861[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Sun Jul 31 15:32:16 2016 +0300
+
+    Added: Admin master page setup
+
+[33mcommit 466d11e40f7f298102aea17de7892ed50eaef92f[m
+Author: Евгений Мирошниченко <mev-w@ukr.net>
+Date:   Fri Jul 29 15:15:01 2016 +0300
+
+    Added: Admin views

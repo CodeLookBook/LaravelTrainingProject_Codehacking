@@ -18,7 +18,7 @@
 
             <div class="form-group {{count($errors)? $errors->has('category_id')? 'has-error' : 'has-success' : ''}}">
                 {!! Form::label('category_id', 'Category: ',['class'=>'control-label']) !!}
-                {!! Form::select('category_id', ['2'=>'PHP','1'=>'JavaScript' ], null, ['class'=>'form-control', 'placeholder'=>'Pick post category']) !!}
+                {!! Form::select('category_id', $categories, null, ['class'=>'form-control', 'placeholder'=>'Pick post category']) !!}
 
                 {{--Отображение ошибки ввода данных в поле--}}
                 @if(count($errors))

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\UsersRequest;
@@ -222,9 +223,8 @@ class AdminController extends Controller
     }
 
     public  function createPost(){
-//        $categories = Category::lists('name', 'id');
-//
-        return view('admin/posts/create'/*, compact('categories')*/);
+        $categories = Category::lists('name', 'id');
+        return view('admin/posts/create', compact('categories'));
     }
 
     public function storePost(PostCreateRequest $request){
@@ -264,6 +264,19 @@ class AdminController extends Controller
     }
 
     public function updatePost(Request $request, $id){
+
+    }
+
+
+    public function categories(){
+
+    }
+
+    public function createCategory(){
+
+    }
+
+    public function storeCategory(){
 
     }
 }
