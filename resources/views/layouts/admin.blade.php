@@ -112,10 +112,10 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Categories<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="panels-wells.html">All Categories</a>
+                                <a href="{{action('AdminController@categories')}}">All Categories</a>
                             </li>
                             <li>
-                                <a href="buttons.html">Create Category</a>
+                                <a href="{{action('AdminController@createCategory')}}">Create Category</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->

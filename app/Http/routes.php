@@ -35,13 +35,17 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get      ('/admin/posts/create'       , 'AdminController@createPost'             );
     Route::post     ('/admin/posts/store'        , 'AdminController@storePost'              );
     Route::get      ('/admin/posts/edit/{id}'    , 'AdminController@editPost'               );
-    Route::post     ('/admin/posts/update/{id}'  , 'AdminController@updatePost'             );
+    Route::patch    ('/admin/posts/update/{id}'  , 'AdminController@updatePost'             );
     Route::delete   ('/admin/posts/delete/{id}'  , 'AdminController@deletePost'             );
 
 
     Route::get      ('/admin/categories'         , 'AdminController@categories'             );
-    Route::get      ('/admin/categories/create'  , 'AdminController@categoryCreate'         );
-    Route::post     ('/admin/categories/store'   , 'AdminController@categoryStore'          );
+    Route::get      ('/admin/categories/create'  , 'AdminController@createCategory'         );
+    Route::post     ('/admin/categories/store'   , 'AdminController@storeCategory'          );
+    Route::get      ('/admin/categories/edit/{id}', 'AdminController@editCategory'          );
+    Route::patch    ('/admin/categories/update/{id}','AdminController@updateCategory'       );
+    Route::delete   ('/admin/categories/destroy/{id}','AdminController@destroyCategory'     );
+
 });
 
 Route::get          ('/admin'                   , function(){ return view('admin.index'); } );

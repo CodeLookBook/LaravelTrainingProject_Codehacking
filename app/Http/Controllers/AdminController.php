@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\UsersRequest;
@@ -260,23 +261,101 @@ class AdminController extends Controller
     }
 
     public function editPost($id){
-
+        $post = Post::findOrFail($id);
+        $categories = Category::lists('name', 'id');
+        return view('admin.posts.edit', compact(['post', 'categories']));
     }
 
     public function updatePost(Request $request, $id){
+        $post = Post::findOrFail($id);
 
+        if($request->has('category_id')){
+            if(!empty($request->input('category_id'))){
+                $post->category_id = $request->input('category_id');
+            }
+        }
+
+        if($request->has('title')){
+            if(!empty($request->input('title'))){
+                $post->title = $request->input('title');
+            }
+        }
+
+        if($request->has('body')){
+            if(!empty($request->input('body'))){
+                $post->body = $request->input('body');
+            }
+        }
+
+        if($request){
+            if($request->hasFile('photo_id')){
+                if(!empty($post->photo->path)){
+                    if(file_exists(public_path().$post->photo->path)){
+                        unlink(public_path().$post->photo->path);
+                    }
+                }
+                $photo = $post->photo ? $post->photo : new Photo();
+                $photo->path = time().$request->file('photo_id')->getClientOriginalName();
+                $request->file('photo_id')->move('image',$photo->path);
+
+                $photo->save();
+
+                $post->photo_id = $photo->id;
+            }
+
+        }
+
+        $post->save();
+        return redirect('/admin/posts');
     }
 
+    public function deletePost($id){
+        $post = Post::findOrFail($id);
+
+        if($post->photo){
+            if(file_exists(public_path().$post->photo->path)){
+                unlink(public_path().$post->photo->path);
+            }
+            $post->photo->delete();
+        }
+
+        $post->delete();
+
+        redirect('/admin/posts');
+    }
 
     public function categories(){
-
+        $categories = Category::all();
+        return view('admin.categories.index',compact('categories'));
     }
 
     public function createCategory(){
-
+        return view('admin.categories.create');
     }
 
-    public function storeCategory(){
+    public function storeCategory(CategoryCreateRequest $request){
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->save();
 
+        return redirect('/admin/categories');
+    }
+
+    public function editCategory($id){
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit',compact('category'));
+    }
+
+    public function updateCategory(CategoryCreateRequest $request, $id){
+        $category = Category::findOrFail($id);
+        $category->name = $request->input('name');
+        $category->save();
+        return redirect('admin/categories');
+    }
+
+    public function destroyCategory($id){
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('admin/categories');
     }
 }
